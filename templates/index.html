@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Control Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .buttonAutoPilot {
+
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Raspberry Pi Control Interface</h1>
+    <div>
+       <div>
+    <button onclick="sendCommand('F')" class="button">Forward</button>
+    <button onclick="sendCommand('B')" class="button">Backward</button>
+    <button onclick="sendCommand('L')" class="button">Left</button>
+    <button onclick="sendCommand('R')" class="button">Right</button>
+</div>
+<div>
+    <button onclick="sendCommand(1)" class="button">Speed Level 1</button>
+    <button onclick="sendCommand(2)" class="button">Speed Level 2</button>
+    <button onclick="sendCommand(3)" class="button">Speed Level 3</button>
+    <button onclick="sendCommand(4)" class="button">Speed Level 4</button>
+</div>
+
+    <div>
+        <button onclick="sendCommand('S')" class="button">Stop</button>
+        <button onclick="sendCommand('A')" class="buttonAutoPilot">Auto Pilot</button>
+        <button onclick="startRadar()" class="button">Start Radar</button>
+    </div>
+    </div>
+<script>
+    function sendCommand(direction) {
+        // AJAX request to Flask route to send command
+        fetch('/send_command/' + direction)
+            .then(response => {
+                if (response.ok) {
+                    console.log('Command sent successfully: ' + direction);
+                } else {
+                    console.error('Error sending command');
+                }
+            })
+            .catch(error => console.error('Error sending command: ', error));
+    }
+    function startRadar() {
+    // AJAX request to Flask route to start radar
+    fetch('/start_radar')
+        .then(response => {
+            if (response.ok) {
+                console.log('Radar started successfully');
+            } else {
+                console.error('Error starting radar');
+            }
+        })
+        .catch(error => console.error('Error starting radar: ', error));
+}
+</script>
+
+</body>
+</html>
